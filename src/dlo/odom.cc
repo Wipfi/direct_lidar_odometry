@@ -364,7 +364,8 @@ void dlo::OdomNode::publishPose() {
   this->odom.child_frame_id = this->child_frame;
   this->odom_pub.publish(this->odom);
 
-  this->pose_ros.header.stamp = this->scan_stamp;
+  //this->pose_ros.header.stamp = this->scan_stamp;
+  this->pose_ros.header.stamp = ros::Time::now();
   this->pose_ros.header.frame_id = this->odom_frame;
 
   this->pose_ros.pose.position.x = this->pose[0];

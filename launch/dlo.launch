@@ -10,10 +10,10 @@
 <launch>
 
   <arg name="robot_namespace" default="robot"/>
-  <arg name="rviz" default="true"/>
+  <arg name="rviz" default="false"/>
 
-  <arg name="pointcloud_topic" default="lidar"/>
-  <arg name="imu_topic" default="imu"/>
+  <arg name="pointcloud_topic" default="/livox/lidar"/>
+  <arg name="imu_topic" default="/livox/imu"/>
 
   <!-- DLO Odometry Node -->
   <node ns="$(arg robot_namespace)" name="dlo_odom" pkg="direct_lidar_odometry" type="dlo_odom_node" output="screen" clear_params="true">
@@ -47,8 +47,5 @@
     <remap from="~map" to="dlo/map_node/map"/>
 
   </node>
-
-  <!-- RViz -->
-  <node pkg="rviz" type="rviz" name="dlo_rviz" args="-d $(find direct_lidar_odometry)/launch/dlo.rviz"/>
 
 </launch>
