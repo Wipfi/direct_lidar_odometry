@@ -126,15 +126,22 @@ void MapNode::abortTimerCB() {
 
 void MapNode::publishTimerCB() {
 
-  if (this->dlo_map->points.size() == this->dlo_map->width * this->dlo_map->height) {
-    sensor_msgs::msg::PointCloud2 map_ros;
-    pcl::toROSMsg(*this->dlo_map, map_ros);
+  sensor_msgs::msg::PointCloud2 map_ros;
+  bool publish = false;
+  {
+    std::lock_guard<std::mutex> lock(this->map_mutex_);
+    if (this->dlo_map->points.size() == this->dlo_map->width * this->dlo_map->height) {
+      pcl::toROSMsg(*this->dlo_map, map_ros);
+      publish = true;
+    }
+  }
+
+  if (publish) {
     map_ros.header.stamp = this->get_clock()->now();
     map_ros.header.frame_id = this->odom_frame;
     this->map_pub->publish(map_ros);
-
   }
-  
+
 }
 
 
@@ -154,8 +161,11 @@ void MapNode::keyframeCB(const sensor_msgs::msg::PointCloud2::ConstSharedPtr& ke
   this->voxelgrid.filter(*keyframe_pcl);
 
   // save keyframe to map
-  this->map_stamp = keyframe->header.stamp;
-  *this->dlo_map += *keyframe_pcl;
+  {
+    std::lock_guard<std::mutex> lock(this->map_mutex_);
+    this->map_stamp = keyframe->header.stamp;
+    *this->dlo_map += *keyframe_pcl;
+  }
 
   if (!this->publish_full_map_) {
     if (keyframe_pcl->points.size() == keyframe_pcl->width * keyframe_pcl->height) {

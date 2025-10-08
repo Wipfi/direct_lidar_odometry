@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <iostream>
 #include <mutex>
+#include <numeric>
 #include <sstream>
 #include <string>
 #include <sys/times.h>
