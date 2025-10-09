@@ -48,6 +48,7 @@ private:
 
   pcl::PointCloud<PointType>::Ptr dlo_map;
   pcl::VoxelGrid<PointType> voxelgrid;
+  std::mutex map_mutex_;
 
   rclcpp::Time map_stamp;
   std::string odom_frame;

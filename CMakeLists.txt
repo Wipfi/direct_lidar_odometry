@@ -31,8 +31,8 @@ find_package(std_srvs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
-find_package(pcl_ros REQUIRED)
 find_package(pcl_conversions REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 # 必须用 SaveTraj 这种格式，save_traj 不行
 # ros2中对自定义消息的名字有要求，首字母必须大写，中介不能有下划线等
@@ -49,9 +49,8 @@ set(dependencies
   nav_msgs
   std_msgs
   std_srvs
-  pcl_ros
   pcl_conversions
-  tf2_ros 
+  tf2_ros
 )
 
 find_package(Eigen3 REQUIRED)

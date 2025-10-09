@@ -213,11 +213,20 @@ private:
   std::thread debug_thread;
 
   std::mutex mtx_imu;
+  std::mutex cloud_mutex_;
+  std::mutex pose_mutex_;
+  std::mutex keyframe_mutex_;
+  std::mutex trajectory_mutex_;
+  std::mutex metrics_mutex_;
+  std::mutex debug_mutex_;
+  std::mutex keyframe_publish_mutex_;
 
   std::string cpu_type;
   std::vector<double> cpu_percents;
   clock_t lastCPU, lastSysCPU, lastUserCPU;
   int numProcessors;
+
+  float spaciousness_median_prev_;
 
   // Parameters
   std::string version_;
